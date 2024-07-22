@@ -3,11 +3,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simple Canvas Web Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <h1>Canvas Game</h1>
-    <canvas id="gameCanvas" width="800" height="500"></canvas>
+    <canvas id="gameCanvas" width="1024" height="576"></canvas>
+    <table>
+      <tbody>
+        <tr>
+          <td>&nbsp;</td>
+          <td><button onmousedown="UpButton()" onmouseup="" class="button yellow round">Y</button></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td><button onclick="LeftButton()" class="button blue round">X</button></td>
+          <td>&nbsp;</td>
+          <td><button onclick="RightButton()" class="button red round">B</button></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+          <td><button onclick="DownButton()" class="button green round">A</button></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+      </tbody>
+    </table>
     <script src="script.js"></script>
   </body>
 </html>

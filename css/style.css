@@ -16,3 +16,42 @@ canvas {
   border-width: 5px;
   border-style:double;
 }
+
+
+.button {
+  background-color: #000000;
+  border: none;
+  box-shadow: 0 8px#505050;
+  padding: px;
+  text-align: center;
+  font-size: 28px;
+}
+
+.button:hover {
+  background-color: #3F3F3F;
+}
+
+.button:active {
+  box-shadow: 0 5px #3D3D3D;
+  transform: translateY(5px);
+}
+
+.red {
+  color: #FF0000;
+}
+
+.green {
+  color: #00FF00;
+}
+
+.blue {
+  color: #0000FF;
+}
+
+.yellow {
+  color: #FFFF00;
+}
+
+.round {
+  border-radius: 50%;
+}
