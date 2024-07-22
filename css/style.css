@@ -1,0 +1,18 @@
+body {
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #faf0cd;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+canvas {
+  border:#000000;
+  border-width: 5px;
+  border-style:double;
+}
