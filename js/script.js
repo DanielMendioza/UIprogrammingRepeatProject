@@ -10,7 +10,7 @@ let greenButton = document.getElementsByClassName("GreenBtn")[0];
 let playerImage = new Image();
 playerImage.src = "img/orc.png";//placeholder
 
-let player = new Player(playerImage);
+const player = new Player(playerImage);
 
 const keys = {
     w:{
@@ -23,6 +23,16 @@ const keys = {
         pressed: false,
     },
 }
+
+const backgroundLevel1 = new Sprite({
+    position: {
+        x:0,
+        y:0
+    },
+    scale: 2.13,//aproximate scaling of the background png
+    imageSrc: `./img/Background.png`
+})
+
 //========================
 //      End of variables
 //========================
@@ -42,6 +52,7 @@ function draw(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     //console.log("Draw");
     //console.log(player);
+    backgroundLevel1.draw()
     player.draw();
 }
 function gameloop() {
