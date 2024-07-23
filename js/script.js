@@ -53,7 +53,11 @@ function draw(){
     //console.log("Draw");
     //console.log(player);
     backgroundLevel1.draw()
+    collisionBlocks.forEach(Collisionblock =>{
+        Collisionblock.draw()
+    })
     player.draw();
+
 }
 function gameloop() {
     update();

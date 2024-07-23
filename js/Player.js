@@ -1,6 +1,6 @@
 class Player {
     constructor(images, scale = 1) {
-        this.position = {x: 0,y: 0};
+        this.position = {x: (3*64),y: (3*64)};
         this.velocity = {x: 0,y: 0};
 
         this.spritesheet = images;
