@@ -7,10 +7,37 @@ let blueButton = document.getElementsByClassName("BlueBtn")[0];
 let redButton = document.getElementsByClassName("RedBtn")[0];
 let greenButton = document.getElementsByClassName("GreenBtn")[0];
 
+
+Array.prototype.CreateObjectsFrom2d = function(){
+    const objects = [];//empty array to store 
+    this.forEach((row, columnHeight)=>{//same function to chop the array into pieces and create a 2darray
+        row.forEach((symbol, rowWidth) => {
+            if (symbol === 1) {
+                objects.push(new CollisionBlockObject({
+                    position: {
+                        x: rowWidth * 64,
+                        y: columnHeight * 64,
+                    }
+                }))
+            }
+        })
+    })
+
+    return objects;
+}
+
+let collisionBlockArray = [];
+// Parse the collision level array into a 2D array
+parsedCollisions = colissionlevel1.parse2D()
+
+collisionBlockArray = parsedCollisions.CreateObjectsFrom2d();
+//==============================
+//         End of Collision
+//==============================
+
 let playerImage = new Image();
 playerImage.src = "img/orc.png";//placeholder
 
-const player = new Player(playerImage);
 
 const keys = {
     w:{
@@ -23,6 +50,8 @@ const keys = {
         pressed: false,
     },
 }
+
+const player = new Player(playerImage, 1, {collisionBlock: collisionBlockArray});
 
 const backgroundLevel1 = new Sprite({
     position: {
@@ -53,7 +82,7 @@ function draw(){
     //console.log("Draw");
     //console.log(player);
     backgroundLevel1.draw()
-    collisionBlocks.forEach(Collisionblock =>{
+    collisionBlockArray.forEach(Collisionblock =>{
         Collisionblock.draw()
     })
     player.draw();
