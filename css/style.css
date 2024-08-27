@@ -22,7 +22,7 @@ canvas {
   background-color: #000000;
   border: none;
   box-shadow: 0 8px#505050;
-  padding: px;
+  padding: 23;
   text-align: center;
   font-size: 28px;
 }
@@ -48,10 +48,11 @@ canvas {
   color: #0000FF;
 }
 
-.yellow {
+.jump {
   color: #FFFF00;
+  
 }
 
 .round {
-  border-radius: 50%;
+  border-radius: 70%;
 }
