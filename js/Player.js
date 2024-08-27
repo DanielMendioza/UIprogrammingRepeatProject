@@ -1,17 +1,14 @@
 class Player extends Sprite {
-    constructor({ collisionBlock = [], imageSrc, frames, scale = 1, states }) {
+    constructor({ passCollisionBlock = [], imageSrc, frames, scale = 0.8, states }) {
         // Pass the scale to the parent Sprite class
         super({ position: { x: 3 * 64, y: (2 * 64) + 1 }, scale, imageSrc, frames});
 
         this.velocity = { x: 0, y: 0 };
-        // Ensure these dimensions are set after the image is loaded
-        this.width = this.frameWidth * this.scale;  // Use scaled frame width
-        this.height = this.frameHeight * this.scale;  // Use scaled frame height
+        this.width = this.frameWidth * this.scale; 
+        this.height = this.frameHeight * this.scale; 
         this.gravity = 1;
-        this.collisionBlocks = collisionBlock;
-
-        // Initialize FSM states
-        
+        this.collisionObjects = passCollisionBlock.filter(Object => Object instanceof CollisionBlockObject);
+        this.doorObjects = passCollisionBlock.filter(Object => Object instanceof DoorObject)
         this.states = states;
         this.currentState = this.states.idle;
         // Initialize sides after width and height are set
@@ -24,36 +21,33 @@ class Player extends Sprite {
         return this.position.y + this.height >= canvas.height;
     }
 
-    // //restart players position on level change
-    // restartPositionLeft(){
-    //     this.position.x = 3*64
-    //     this.position.y = (4*64) + 1
-    // }
-
-    // restartPositionRight(){
-    //     this.position.x = 6*64
-    //     this.position.y = (2*64) + 1
-    // }
-
     checkDoorCollision() {
-        for (let door of this.doorObjects) {
+        for (let i = 0; i < this.doorObjects.length; i++) {
+            const door = this.doorObjects[i];
+    
+            // Calculates player center positions
+            const playerCenterX = this.position.x + (this.width / 2);
+            const playerCenterY = this.position.y + (this.height / 2);
+    
+            // Checks if the player's center is touching the current "door"
             if (
-                this.position.x + this.width >= door.position.x &&
-                this.position.x <= door.position.x + door.width &&
-                this.position.y < door.position.y + door.height &&
-                this.position.y + this.height > door.position.y
+                playerCenterX > door.position.x &&
+                playerCenterX < door.position.x + door.width &&
+                playerCenterY > door.position.y &&
+                playerCenterY < door.position.y + door.height
             ) {
                 this.teleportToNextLevel();
-                break;
+                return; 
             }
         }
     }
 
     teleportToNextLevel() {
-        this.levelCounter += 1; 
-        loadNextLevel(this.levelCounter);
-        this.position.x = 3 * 64; 
+        console.log("Teleport!!!")
+        loadNextLevel();
+        this.position.x = 2 * 64; 
         this.position.y = (4 * 64) + 1;
+        //this.restartPositionLeft()
     }
 
     handleStates() {
@@ -68,27 +62,30 @@ class Player extends Sprite {
         }
     }
 
-    update() {
-        this.velocity.y += this.gravity;
+    updateLevelArray(levelArray){
+        this.collisionObjects = levelArray.filter(obj => obj instanceof CollisionBlockObject);
+        this.doorObjects = levelArray.filter(obj => obj instanceof DoorObject);
+    }
 
-        // Update vertical position first
+    update() {
+        this.checkDoorCollision();//doesnt break the logic if put up here
+        this.velocity.y += this.gravity;
         this.position.y += this.velocity.y;
 
-        // Update sides based on current position and scaled dimensions
 
         // Handle vertical collisions
-        for (let i = 0; i < this.collisionBlocks.length; i++) {
-            const singleBlock = this.collisionBlocks[i];
+        for (let i = 0; i < this.collisionObjects.length; i++) {
+            const singleBlock = this.collisionObjects[i];
 
             if (this.position.x < singleBlock.position.x + singleBlock.width &&
                 this.position.x + this.width > singleBlock.position.x &&
                 this.position.y < singleBlock.position.y + singleBlock.height &&
                 this.position.y + this.height > singleBlock.position.y) {
-                if (this.velocity.y > 0) { // Falling down
+                if (this.velocity.y > 0) { // down
                     this.position.y = singleBlock.position.y - this.height;
                     this.velocity.y = 0;
                     break;
-                } else if (this.velocity.y < 0) { // Moving up
+                } else if (this.velocity.y < 0) { // up
                     this.position.y = singleBlock.position.y + singleBlock.height;
                     this.velocity.y = 0;
                     break;
@@ -100,19 +97,19 @@ class Player extends Sprite {
         this.position.x += this.velocity.x;
 
         // Handle horizontal collisions
-        for (let i = 0; i < this.collisionBlocks.length; i++) {
-            const singleBlock = this.collisionBlocks[i];
+        for (let i = 0; i < this.collisionObjects.length; i++) {
+            const singleBlock = this.collisionObjects[i];
 
             if (this.position.x < singleBlock.position.x + singleBlock.width &&
                 this.position.x + this.width > singleBlock.position.x &&
                 this.position.y < singleBlock.position.y + singleBlock.height &&
                 this.position.y + this.height > singleBlock.position.y) {
                 if (this.velocity.x > 0) { // Moving right
-                    this.position.x = singleBlock.position.x - this.width - 0.01;
+                    this.position.x = singleBlock.position.x - this.width - 0.02;
                     this.velocity.x = 0;
                     break;
                 } else if (this.velocity.x < 0) { // Moving left
-                    this.position.x = singleBlock.position.x + singleBlock.width + 0.01;
+                    this.position.x = singleBlock.position.x + singleBlock.width + 0.02;
                     this.velocity.x = 0;
                     break;
                 }
@@ -124,7 +121,5 @@ class Player extends Sprite {
             this.position.y = canvas.height - this.height;
             this.velocity.y = 0;
         }
-
-        this.draw();
     }
 }

@@ -30,28 +30,27 @@ Array.prototype.CreateObjectsFrom2d = function() {
                     }
                 }));
             }
+            if (symbol === 2) { // Collision block
+                objects.push(new DoorObject({
+                    position: {
+                        x: rowWidth * 64,
+                        y: columnHeight * 64,
+                    }
+                }));
+            }
         });
     });
 
     return objects;
 }
 
-let collisionBlockArray = [];
+let LevelBlockArray = [];
 // Parse the collision level array into a 2D array
-switch (levelCounter) {
-    case 1:
-        parsedCollisions = collisionlevel1.parse2D()
-        collisionBlockArray = parsedCollisions.CreateObjectsFrom2d();
-        break;
-    case 2:
-        parsedCollisions = collisionlevel2.parse2D()
-        collisionBlockArray = parsedCollisions.CreateObjectsFrom2d();
-        break;
 
-    default:
-        break;
-}
-collisionBlockArray = parsedCollisions.CreateObjectsFrom2d();
+parsedCollisions = collisionlevel4.parse2D()
+LevelBlockArray = parsedCollisions.CreateObjectsFrom2d();
+        
+LevelBlockArray = parsedCollisions.CreateObjectsFrom2d();
 //==============================
 //         End of Collision
 //==============================
@@ -71,11 +70,15 @@ const keys = {
 
 //const player = new Player(playerImage, 1, {collisionBlock: collisionBlockArray});
 const player = new Player({
-    collisionBlock: collisionBlockArray, // Initialize with any collision blocks if needed
+    passCollisionBlock: LevelBlockArray,
+    frames: 4,
     imageSrc: './img/Punk_idle.png',
-    frames: 4, // Specify the number of frames in the sprite sheet
     states,
 });
+console.log(player.doorObjects)
+console.log(levelCounter)
+// if (condition) {//player frames, idle running 
+// }
 console.log(player);
 const backgroundLevel1 = new Sprite({
     position: {
@@ -90,52 +93,49 @@ const backgroundLevel1 = new Sprite({
 //      End of variables
 //========================
 
-function loadNextLevel(levelCounter) {
+function loadNextLevel() {
+    console.log("called out")
+    
     let parsedCollisions, collisionBlockArray, doorObjects;
-
+    levelCounter++;
+    console.log(levelCounter)
     switch (levelCounter) {
         case 1:
             parsedCollisions = collisionlevel1.parse2D();
-            collisionBlockArray = parsedCollisions.CreateObjectsFrom2d();
             break;
         case 2:
+            console.log("level 2 loaded!")
             parsedCollisions = collisionlevel2.parse2D();
-            collisionBlockArray = parsedCollisions.CreateObjectsFrom2d();
+            console.log(collisionBlockArray)
             break;
         case 3:
             parsedCollisions = collisionlevel3.parse2D();
-            collisionBlockArray = parsedCollisions.CreateObjectsFrom2d();
+            break;
+        case 4:
+            parsedCollisions = collisionlevel4.parse2D();
             break;
         default:
             console.log("No more levels!");
+            console.log(levelCounter)
             return;
     }
 
-    // Separate out door objects from collision objects
-    doorObjects = collisionBlockArray.filter(obj => obj instanceof DoorObject);
-    collisionBlockArray = collisionBlockArray.filter(obj => obj instanceof CollisionBlockObject);
 
-    player.collisionBlocks = collisionBlockArray;
-    player.doorObjects = doorObjects;
+    LevelBlockArray = [];
+
+    collisionBlockArray = parsedCollisions.CreateObjectsFrom2d();
+    LevelBlockArray = collisionBlockArray;
+    player.updateLevelArray(LevelBlockArray);
 }
 
 function update() {
     player.update();
     player.velocity.x = 0;
     if (keys.d.pressed) {
-        player.velocity.x = 4
+        player.velocity.x = 5
     } else if (keys.a.pressed) {
-        player.velocity.x = -4
+        player.velocity.x = -5
     }
-
-    // if (player.position.x + player.width >= canvas.width) {
-    //     player.restartPositionLeft();
-    //     levelCounter++;
-    // }
-    // else if(player.position.x + player.width <= 0 && levelCounter > 0){
-    //     player.restartPositionRight();
-    //     levelCounter--;
-    // }
 }
 
 function draw(){
@@ -143,7 +143,7 @@ function draw(){
     //console.log("Draw");
     //console.log(player);
     backgroundLevel1.draw()
-    collisionBlockArray.forEach(Collisionblock =>{
+    LevelBlockArray.forEach(Collisionblock =>{
         Collisionblock.draw()
     })
     player.draw();
