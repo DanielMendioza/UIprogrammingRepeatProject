@@ -6,7 +6,14 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Door Chase</h1>
+    <h1 id="page-title">Door Chase</h1> <!-- Ensure this ID matches the one in the JavaScript -->
+
+    <form id="nameForm">
+      <label for="name">Enter your name:</label>
+      <input type="text" id="name" name="name">
+      <button type="submit">Submit</button>
+    </form>
+
     <canvas id="gameCanvas" width="1024" height="576"></canvas><!--16x9 by 64pixels-->
     <table>
       <tr>

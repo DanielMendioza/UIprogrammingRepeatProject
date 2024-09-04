@@ -1,6 +1,38 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+
+
+window.onload = function() {
+    const titleElement = document.getElementById('page-title');
+    const nameForm = document.getElementById('nameForm');
+    const nameInput = document.getElementById('name');
+    
+    // Function to update the title based on the name
+    function updateTitle(name) {
+        titleElement.textContent = `Door Chase, Hello ${name}`;
+    }
+    
+    // Check if a name is stored in localStorage on page load
+    const storedName = localStorage.getItem('name');
+    if (storedName) {
+        updateTitle(storedName);
+    }
+    
+    // Handle form submission
+    nameForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from refreshing the page
+        const inputName = nameInput.value;
+        loadName = nameInput.value;
+        // Store the name in localStorage
+        localStorage.setItem('name', inputName);
+        
+        // Update the title
+        updateTitle(inputName);
+    });
+};
+
+var loadName = localStorage.getItem(`name`); 
 //buttons shown on the webpage
 let yellowButton = document.getElementsByClassName("YellowBtn")[0];
 let blueButton = document.getElementsByClassName("BlueBtn")[0];
@@ -93,7 +125,7 @@ const backgroundLevel1 = new Sprite({
 //      End of variables
 //========================
 
-function loadNextLevel() {
+function loadNextLevel(name) {
     console.log("called out")
     
     let parsedCollisions, collisionBlockArray;
@@ -115,7 +147,7 @@ function loadNextLevel() {
             parsedCollisions = collisionlevel4.parse2D();
             break;
         default:
-            console.log("No more levels!");
+            console.log(`No more levels!, ${loadName} has finished the game`);
             console.log(levelCounter)
             return;
     }
