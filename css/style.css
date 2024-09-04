@@ -36,21 +36,27 @@ canvas {
   transform: translateY(5px);
 }
 
+
+
 .red {
   color: #FF0000;
-}
-
-.green {
-  color: #00FF00;
+  position: absolute;
+  left: 100px;  
+  bottom: 10px;
 }
 
 .blue {
   color: #0000FF;
+  position: absolute;
+  left: 10px;  
+  bottom: 10px;
 }
 
 .jump {
   color: #FFFF00;
-  
+  position: absolute;
+  right: 10px; /* Position 10px from the right side of the canvas */
+  bottom: 10px;
 }
 
 .round {

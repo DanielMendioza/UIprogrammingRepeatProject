@@ -152,6 +152,7 @@ function draw(){
 function gameloop() {
     update();
     draw();
+    loadButtonControls(player)
     window.requestAnimationFrame(gameloop);
 }
 

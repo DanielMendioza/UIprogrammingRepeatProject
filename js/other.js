@@ -9,8 +9,9 @@ Array.prototype.parse2D = function(){
     //   [49, 50, 51 ... etc]
     // ]
     for (let i = 0; i < this.length; i+=16){
-        //the slice method in JavaScript is used to extract a portion of an array into a new array
-        //efectively "slicing the 1d Array into a 2D array of 16xZ where Z is the amount of loops"
+      //the slice method in JavaScript is used to extract a portion of an array into a new array
+      //efectively "slicing the 1d Array into a 2D array of 16xZ where Z is the amount of loops"
+      // https://www.w3schools.com/JSREF/jsref_slice_array.asp
         rows.push(this.slice(i, i+16))
     }
     return rows;

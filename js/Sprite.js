@@ -5,7 +5,7 @@ class Sprite {
         this.frames = frames;  // Number of frames in the sprite sheet
         this.currentFrame = 0;  // Index of the current frame
         this.frameCounter = 0;  // Counter to control the frame rate
-        this.frameRate = 20;    // Controls how fast the animation plays (adjust as needed)
+        this.frameRate = 20;    // Controls how fast the animation plays
         
         this.image = new Image();
         this.image.onload = () => {
