@@ -47,7 +47,7 @@ Array.prototype.CreateObjectsFrom2d = function() {
 let LevelBlockArray = [];
 // Parse the collision level array into a 2D array
 
-parsedCollisions = collisionlevel4.parse2D()
+parsedCollisions = collisionlevel1.parse2D()
 LevelBlockArray = parsedCollisions.CreateObjectsFrom2d();
         
 LevelBlockArray = parsedCollisions.CreateObjectsFrom2d();
@@ -96,7 +96,7 @@ const backgroundLevel1 = new Sprite({
 function loadNextLevel() {
     console.log("called out")
     
-    let parsedCollisions, collisionBlockArray, doorObjects;
+    let parsedCollisions, collisionBlockArray;
     levelCounter++;
     console.log(levelCounter)
     switch (levelCounter) {
